@@ -313,15 +313,38 @@ function SolvingMatVisual({ mat, tiles, isSelected, onPointerDown }: {
 
         {/* Resize handles */}
         {isSelected && <>
+          {/* Top */}
+          <div data-resize-handle="n" style={{ position: 'absolute', width: 10, height: 10,
+            background: '#08b8fb', borderRadius: 2, top: -5, left: '50%', transform: 'translateX(-50%)',
+            cursor: 'ns-resize', zIndex: 3, pointerEvents: 'auto' }} />
+          {/* Bottom */}
           <div data-resize-handle="s" style={{ position: 'absolute', width: 10, height: 10,
             background: '#08b8fb', borderRadius: 2, bottom: -5, left: '50%', transform: 'translateX(-50%)',
             cursor: 'ns-resize', zIndex: 3, pointerEvents: 'auto' }} />
+          {/* Left */}
+          <div data-resize-handle="w" style={{ position: 'absolute', width: 10, height: 10,
+            background: '#08b8fb', borderRadius: 2, left: -5, top: '50%', transform: 'translateY(-50%)',
+            cursor: 'ew-resize', zIndex: 3, pointerEvents: 'auto' }} />
+          {/* Right */}
           <div data-resize-handle="e" style={{ position: 'absolute', width: 10, height: 10,
             background: '#08b8fb', borderRadius: 2, right: -5, top: '50%', transform: 'translateY(-50%)',
             cursor: 'ew-resize', zIndex: 3, pointerEvents: 'auto' }} />
+          {/* Top-left */}
+          <div data-resize-handle="nw" style={{ position: 'absolute', width: 10, height: 10,
+            background: '#08b8fb', borderRadius: 2, top: -5, left: -5,
+            cursor: 'nwse-resize', zIndex: 3, pointerEvents: 'auto' }} />
+          {/* Top-right */}
+          <div data-resize-handle="ne" style={{ position: 'absolute', width: 10, height: 10,
+            background: '#08b8fb', borderRadius: 2, top: -5, right: -5,
+            cursor: 'nesw-resize', zIndex: 3, pointerEvents: 'auto' }} />
+          {/* Bottom-left */}
+          <div data-resize-handle="sw" style={{ position: 'absolute', width: 10, height: 10,
+            background: '#08b8fb', borderRadius: 2, bottom: -5, left: -5,
+            cursor: 'nesw-resize', zIndex: 3, pointerEvents: 'auto' }} />
+          {/* Bottom-right */}
           <div data-resize-handle="se" style={{ position: 'absolute', width: 10, height: 10,
             background: '#08b8fb', borderRadius: 2, bottom: -5, right: -5,
-            cursor: 'se-resize', zIndex: 3, pointerEvents: 'auto' }} />
+            cursor: 'nwse-resize', zIndex: 3, pointerEvents: 'auto' }} />
         </>}
       </div>
 
@@ -390,15 +413,38 @@ function FactorsMatVisual({ mat, tiles, isSelected, onPointerDown }: {
 
         {/* Resize handles */}
         {isSelected && <>
+          {/* Top */}
+          <div data-resize-handle="n" style={{ position: 'absolute', width: 10, height: 10,
+            background: '#08b8fb', borderRadius: 2, top: -5, left: '50%', transform: 'translateX(-50%)',
+            cursor: 'ns-resize', zIndex: 3, pointerEvents: 'auto' }} />
+          {/* Bottom */}
           <div data-resize-handle="s" style={{ position: 'absolute', width: 10, height: 10,
             background: '#08b8fb', borderRadius: 2, bottom: -5, left: '50%', transform: 'translateX(-50%)',
             cursor: 'ns-resize', zIndex: 3, pointerEvents: 'auto' }} />
+          {/* Left */}
+          <div data-resize-handle="w" style={{ position: 'absolute', width: 10, height: 10,
+            background: '#08b8fb', borderRadius: 2, left: -5, top: '50%', transform: 'translateY(-50%)',
+            cursor: 'ew-resize', zIndex: 3, pointerEvents: 'auto' }} />
+          {/* Right */}
           <div data-resize-handle="e" style={{ position: 'absolute', width: 10, height: 10,
             background: '#08b8fb', borderRadius: 2, right: -5, top: '50%', transform: 'translateY(-50%)',
             cursor: 'ew-resize', zIndex: 3, pointerEvents: 'auto' }} />
+          {/* Top-left */}
+          <div data-resize-handle="nw" style={{ position: 'absolute', width: 10, height: 10,
+            background: '#08b8fb', borderRadius: 2, top: -5, left: -5,
+            cursor: 'nwse-resize', zIndex: 3, pointerEvents: 'auto' }} />
+          {/* Top-right */}
+          <div data-resize-handle="ne" style={{ position: 'absolute', width: 10, height: 10,
+            background: '#08b8fb', borderRadius: 2, top: -5, right: -5,
+            cursor: 'nesw-resize', zIndex: 3, pointerEvents: 'auto' }} />
+          {/* Bottom-left */}
+          <div data-resize-handle="sw" style={{ position: 'absolute', width: 10, height: 10,
+            background: '#08b8fb', borderRadius: 2, bottom: -5, left: -5,
+            cursor: 'nesw-resize', zIndex: 3, pointerEvents: 'auto' }} />
+          {/* Bottom-right */}
           <div data-resize-handle="se" style={{ position: 'absolute', width: 10, height: 10,
             background: '#08b8fb', borderRadius: 2, bottom: -5, right: -5,
-            cursor: 'se-resize', zIndex: 3, pointerEvents: 'auto' }} />
+            cursor: 'nwse-resize', zIndex: 3, pointerEvents: 'auto' }} />
         </>}
 
         {mat.factorShowLabels && <>
@@ -436,6 +482,7 @@ function DraggableMat({ mat, tiles, isSelected, zoom, onSelect, onDragEnd, onRes
   const resizing = useRef<string | null>(null);
   const moved    = useRef(false);
   const selfRef  = useRef<HTMLDivElement>(null);
+  const resizePos = useRef<Position>({ x: 0, y: 0 });
 
   const onPD = (e: React.PointerEvent) => {
     // If clicked on a child manipulative-item, don't start mat drag
@@ -443,16 +490,18 @@ function DraggableMat({ mat, tiles, isSelected, zoom, onSelect, onDragEnd, onRes
     // If clicked on a resize handle
     const handle = (e.target as HTMLElement).closest('[data-resize-handle]');
     if (handle) {
+      e.preventDefault();
       e.stopPropagation();
-      (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+      if (selfRef.current) selfRef.current.setPointerCapture(e.pointerId);
       resizing.current = handle.getAttribute('data-resize-handle');
       start.current = { x: e.clientX, y: e.clientY };
-      originSize.current = { w: mat.width || 0, h: mat.height || 0 };
+      origin.current = { ...mat.position };
+      originSize.current = { w: mat.width || 480, h: mat.height || 240 };
       onSelect();
       return;
     }
     e.stopPropagation();
-    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+    if (selfRef.current) selfRef.current.setPointerCapture(e.pointerId);
     dragging.current = true; moved.current = false;
     start.current  = { x: e.clientX, y: e.clientY };
     origin.current = { ...mat.position };
@@ -460,13 +509,34 @@ function DraggableMat({ mat, tiles, isSelected, zoom, onSelect, onDragEnd, onRes
   };
   const onPM = (e: React.PointerEvent) => {
     if (resizing.current) {
+      e.preventDefault();
       const dx = (e.clientX - start.current.x) / zoom;
       const dy = (e.clientY - start.current.y) / zoom;
       let nw = originSize.current.w, nh = originSize.current.h;
+      let posX = mat.position.x, posY = mat.position.y;
       const h = resizing.current;
+      
+      // Width adjustments (east)
       if (h.includes('e')) nw = Math.max(200, originSize.current.w + dx);
+      // Width adjustments (west)
+      if (h.includes('w')) {
+        nw = Math.max(200, originSize.current.w - dx);
+        posX = origin.current.x + dx;
+      }
+      // Height adjustments (south)
       if (h.includes('s')) nh = Math.max(120, originSize.current.h + dy);
+      // Height adjustments (north)
+      if (h.includes('n')) {
+        nh = Math.max(120, originSize.current.h - dy);
+        posY = origin.current.y + dy;
+      }
+      
+      resizePos.current = { x: posX, y: posY };
       onResize(nw, nh);
+      if ((h.includes('w') || h.includes('n')) && selfRef.current) {
+        selfRef.current.style.left = `${posX}px`;
+        selfRef.current.style.top = `${posY}px`;
+      }
       return;
     }
     if (!dragging.current) return;
@@ -479,7 +549,16 @@ function DraggableMat({ mat, tiles, isSelected, zoom, onSelect, onDragEnd, onRes
     }
   };
   const onPU = (e: React.PointerEvent) => {
-    if (resizing.current) { resizing.current = null; return; }
+    if (resizing.current) {
+      const h = resizing.current;
+      resizing.current = null;
+      if (selfRef.current) selfRef.current.releasePointerCapture(e.pointerId);
+      // Update position if we resized from left or top
+      if ((h.includes('w') || h.includes('n')) && (resizePos.current.x !== mat.position.x || resizePos.current.y !== mat.position.y)) {
+        onDragEnd(resizePos.current);
+      }
+      return; 
+    }
     if (!dragging.current) return;
     dragging.current = false;
     if (moved.current) {
@@ -493,7 +572,7 @@ function DraggableMat({ mat, tiles, isSelected, zoom, onSelect, onDragEnd, onRes
     <div ref={selfRef}
       data-mat-id={mat.id}
       style={{ position: 'absolute', left: mat.position.x, top: mat.position.y,
-        zIndex: isSelected ? 5 : 3, touchAction: 'none' }}
+        zIndex: isSelected ? 5 : 3, touchAction: 'none', userSelect: 'none' }}
       onPointerDown={onPD} onPointerMove={onPM} onPointerUp={onPU}>
       {children}
     </div>
@@ -705,6 +784,24 @@ export default function AlgebraTiles({
   const menuItem    = items.find(i => i.id === selectedIds[0]);
   const selectedMat = mats.find(m => m.id === selectedMatId);
 
+  // Calculate content bounds for scrollbars
+  const contentBounds = (() => {
+    let maxX = 0, maxY = 0;
+    items.forEach(item => {
+      const itemW = item.width || 40;
+      const itemH = item.height || 40;
+      maxX = Math.max(maxX, item.position.x + itemW);
+      maxY = Math.max(maxY, item.position.y + itemH);
+    });
+    mats.forEach(mat => {
+      const matW = mat.width || 480;
+      const matH = mat.height || 240;
+      maxX = Math.max(maxX, mat.position.x + matW);
+      maxY = Math.max(maxY, mat.position.y + matH);
+    });
+    return { maxX, maxY };
+  })();
+
   return (
     <div style={{ width: '100%', height: '100%', display: 'flex', position: 'relative', userSelect: 'none' }}>
 
@@ -738,6 +835,7 @@ export default function AlgebraTiles({
           selectedIds={selectedIds}
           isDrawing={interactionMode === 'pen'}
           clearTrigger={clearTrigger} zoom={zoom}
+          contentBounds={contentBounds}
         >
           {/* ── Mats ── */}
           {mats.map(mat => (

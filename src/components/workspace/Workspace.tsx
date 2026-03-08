@@ -13,6 +13,7 @@ interface WorkspaceProps {
   clearTrigger?: number;
   zoom?: number;
   pan?: Position;
+  contentBounds?: { maxX: number; maxY: number };
   children?: React.ReactNode;
 }
 
@@ -27,6 +28,7 @@ export default function Workspace({
   clearTrigger,
   zoom = 1,
   pan = { x: 0, y: 0 },
+  contentBounds,
   children,
 }: WorkspaceProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -63,26 +65,18 @@ export default function Workspace({
     return () => window.removeEventListener('resize', resize);
   }, []);
 
-  // ── Calculate content size from items (not from contentRef) ──
+  // ── Calculate content size from items + mats ──
   useEffect(() => {
-    if (items.length === 0) {
+    if (!contentBounds) {
       setContentSize({ w: 2000, h: 2000 });
       return;
     }
-    let maxX = 0, maxY = 0;
-    items.forEach(item => {
-      const itemW = item.width || 40;
-      const itemH = item.height || 40;
-      const bottomRight = {
-        x: item.position.x + itemW,
-        y: item.position.y + itemH,
-      };
-      if (bottomRight.x > maxX) maxX = bottomRight.x;
-      if (bottomRight.y > maxY) maxY = bottomRight.y;
-    });
     const padding = 200;
-    setContentSize({ w: (maxX + padding) * zoom, h: (maxY + padding) * zoom });
-  }, [items, zoom]);
+    setContentSize({ 
+      w: (contentBounds.maxX + padding) * zoom,
+      h: (contentBounds.maxY + padding) * zoom 
+    });
+  }, [contentBounds, zoom]);
 
   // Workspace coordinates (accounting for zoom/pan)
   const toWorkspace = (clientX: number, clientY: number) => {
@@ -94,22 +88,22 @@ export default function Workspace({
   };
 
   const handleHorizontalScroll = (e: React.MouseEvent<HTMLDivElement>) => {
-    const scrollbar = (e.target as HTMLDivElement).parentElement?.parentElement || containerRef.current;
-    if (!scrollbar || !containerRef.current) return;
-    const rect = scrollbar.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const ratio = Math.max(0, Math.min(1, clickX / rect.width));
-    const maxScrollX = Math.max(0, contentSize.w - containerW);
+    if (!containerRef.current) return;
+    const containerW = containerRef.current.offsetWidth - 16; // Subtract space for vertical scrollbar
+    const trackRect = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
+    const clickX = e.clientX - trackRect.left;
+    const ratio = Math.max(0, Math.min(1, clickX / trackRect.width));
+    const maxScrollX = Math.max(1, contentSize.w - containerRef.current.offsetWidth);
     setScrollPos(prev => ({ ...prev, x: ratio * maxScrollX }));
   };
 
   const handleVerticalScroll = (e: React.MouseEvent<HTMLDivElement>) => {
-    const scrollbar = (e.target as HTMLDivElement).parentElement?.parentElement || containerRef.current;
-    if (!scrollbar || !containerRef.current) return;
-    const rect = scrollbar.getBoundingClientRect();
-    const clickY = e.clientY - rect.top;
-    const ratio = Math.max(0, Math.min(1, clickY / rect.height));
-    const maxScrollY = Math.max(0, contentSize.h - containerH);
+    if (!containerRef.current) return;
+    const containerH = containerRef.current.offsetHeight - 12; // Subtract space for horizontal scrollbar
+    const trackRect = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
+    const clickY = e.clientY - trackRect.top;
+    const ratio = Math.max(0, Math.min(1, clickY / trackRect.height));
+    const maxScrollY = Math.max(1, contentSize.h - containerRef.current.offsetHeight);
     setScrollPos(prev => ({ ...prev, y: ratio * maxScrollY }));
   };
 
