@@ -31,9 +31,11 @@ mathlap-main/
 ## 🎮 Tools Included
 
 ### 🔟 **BaseTenBlocks** (Main Tool)
+
 Interactive place-value manipulative for teaching the base-10 number system.
 
 **Features:**
+
 - ✨ Two modes: Basic (free play) and Place Value (structured learning)
 - 🧮 Four block types: Units, Rods, Flats, Cubes (1, 10, 100, 1000)
 - 🖱️ Drag-and-drop functionality
@@ -43,6 +45,7 @@ Interactive place-value manipulative for teaching the base-10 number system.
 - 📝 Full block manipulation (copy, lock, delete)
 
 **Documentation:**
+
 - 📖 [Usage Guide (Arabic)](./USAGE_GUIDE_AR.md)
 - 🔧 [Technical Improvements](./IMPROVEMENTS.md)
 - 📋 [Work Summary](./WORK_SUMMARY.md)
@@ -52,23 +55,28 @@ Interactive place-value manipulative for teaching the base-10 number system.
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Node.js (v16+)
 - npm or yarn
 
 ### Installation
 
 1. **Install dependencies:**
+
    ```bash
    npm install
    ```
 
 2. **Set up environment variables:**
+
    ```bash
    cp .env.example .env.local
    ```
+
    Edit `.env.local` and add your `GEMINI_API_KEY`
 
 3. **Run local development server:**
+
    ```bash
    npm run dev
    ```
@@ -83,6 +91,7 @@ Interactive place-value manipulative for teaching the base-10 number system.
 ## 🎯 Quick Start with BaseTenBlocks
 
 ### Basic Mode
+
 ```
 1. Open the app
 2. Click on blocks in the left sidebar to add them
@@ -91,6 +100,7 @@ Interactive place-value manipulative for teaching the base-10 number system.
 ```
 
 ### Place Value Mode
+
 ```
 1. Switch to "Place Value" mode in the header
 2. A smart board with 4 columns appears (Thousands, Hundreds, Tens, Ones)
@@ -103,24 +113,26 @@ Interactive place-value manipulative for teaching the base-10 number system.
 
 ## 🎨 Block Types
 
-| Type | Value | Color | Size | Grid |
-|------|-------|-------|------|------|
-| **Unit** | 1 | Yellow (#eab308) | 28×28 px | Diagonal pattern |
-| **Rod** | 10 | Blue (#3b82f6) | 28×140 px | 10 segments |
-| **Flat** | 100 | Orange (#f97316) | 140×140 px | 10×10 grid |
-| **Cube** | 1000 | Green (#22c55e) | 160×160 px | 3D + 10×10 front |
+| Type     | Value | Color            | Size       | Grid             |
+| -------- | ----- | ---------------- | ---------- | ---------------- |
+| **Unit** | 1     | Yellow (#eab308) | 28×28 px   | Diagonal pattern |
+| **Rod**  | 10    | Blue (#3b82f6)   | 28×140 px  | 10 segments      |
+| **Flat** | 100   | Orange (#f97316) | 140×140 px | 10×10 grid       |
+| **Cube** | 1000  | Green (#22c55e)  | 160×160 px | 3D + 10×10 front |
 
 ---
 
 ## 🔑 Key Features
 
 ### Interface
+
 - 🎨 Clean, intuitive UI
 - ⚡ Smooth animations
 - 🖥️ Responsive design
 - 🔍 Zoom/pan controls
 
 ### Functionality
+
 - ✅ One-click block addition
 - ✅ Drag-and-drop with smart placement
 - ✅ Automatic block arrangement
@@ -129,6 +141,7 @@ Interactive place-value manipulative for teaching the base-10 number system.
 - ✅ Block locking
 
 ### Educational
+
 - 📚 Place-value learning
 - 🧮 Visual arithmetic
 - 🎓 Base-10 system understanding
@@ -150,13 +163,13 @@ Status:         ✅ Production Ready
 
 ## 📚 Documentation
 
-| Document | Purpose |
-|----------|---------|
-| [USAGE_GUIDE_AR.md](./USAGE_GUIDE_AR.md) | Complete user guide in Arabic |
-| [IMPROVEMENTS.md](./IMPROVEMENTS.md) | Technical improvements and optimizations |
-| [WORK_SUMMARY.md](./WORK_SUMMARY.md) | Executive summary of work done |
-| [CHAT_HISTORY.txt](./CHAT_HISTORY.txt) | Development conversation history |
-| [FILES_MODIFIED.md](./FILES_MODIFIED.md) | List of modified files |
+| Document                                 | Purpose                                  |
+| ---------------------------------------- | ---------------------------------------- |
+| [USAGE_GUIDE_AR.md](./USAGE_GUIDE_AR.md) | Complete user guide in Arabic            |
+| [IMPROVEMENTS.md](./IMPROVEMENTS.md)     | Technical improvements and optimizations |
+| [WORK_SUMMARY.md](./WORK_SUMMARY.md)     | Executive summary of work done           |
+| [CHAT_HISTORY.txt](./CHAT_HISTORY.txt)   | Development conversation history         |
+| [FILES_MODIFIED.md](./FILES_MODIFIED.md) | List of modified files                   |
 
 ---
 
@@ -191,6 +204,7 @@ This project is part of the MathLap educational tools suite.
 ## 👨‍💻 Development Notes
 
 ### Recent Improvements (Latest Session)
+
 - ✅ Optimized block arrangement algorithm
 - ✅ Enhanced visual design for all block types
 - ✅ Improved drag-and-drop behavior
@@ -198,6 +212,7 @@ This project is part of the MathLap educational tools suite.
 - ✅ Verified all features working correctly
 
 ### Testing Recommendations
+
 - Single block addition and placement
 - Multi-block selection and operations
 - Drag-and-drop from tray
@@ -210,6 +225,7 @@ This project is part of the MathLap educational tools suite.
 ## 📞 Support
 
 For issues or questions:
+
 1. Check the [USAGE_GUIDE_AR.md](./USAGE_GUIDE_AR.md)
 2. Review [IMPROVEMENTS.md](./IMPROVEMENTS.md) for technical details
 3. Check the [CHAT_HISTORY.txt](./CHAT_HISTORY.txt) for development context
@@ -220,4 +236,3 @@ For issues or questions:
 **Version:** 1.0
 **Status:** ✨ Production Ready - Excellent Quality
 **Project Grade:** A+ (All features implemented and tested)
-

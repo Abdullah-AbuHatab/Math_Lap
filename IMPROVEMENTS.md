@@ -3,6 +3,7 @@
 ## 📋 ملخص الجلسة الحالية
 
 تم إصلاح وتحسين مكون BaseTenBlocks بناءً على متطلبات المستخدم لضمان:
+
 - ✅ ترتيب منظم للبلوكات عند التفكك
 - ✅ الفلات تظهر بـ 10×10 grid واضح
 - ✅ تأثيرات بصرية محسّنة لجميع أنواع البلوكات
@@ -13,20 +14,24 @@
 ## 🔧 التحسينات التقنية
 
 ### 1. إعادة بناء دالة `arrangeBlocksInZone`
+
 **المشكلة السابقة:**
+
 - البلوكات كانت تترتب بشكل عشوائي بعد التفكك
 - مسافات غير متسقة بين البلوكات
 - لا توجد محاولة لتوسيط البلوكات داخل المنطقة
 
 **الحل الجديد:**
+
 ```typescript
 // ✅ مسافة ثابتة بين البلوكات (8px)
 const GRID_SPACING = 8;
 const ZONE_PADDING = 8;
 
 // ✅ حساب عدد الأعمدة ديناميكياً حسب حجم البلوك
-const itemsPerRow = Math.max(1, 
-  Math.floor((usableW + GRID_SPACING) / (dims.w + GRID_SPACING))
+const itemsPerRow = Math.max(
+  1,
+  Math.floor((usableW + GRID_SPACING) / (dims.w + GRID_SPACING)),
 );
 
 // ✅ توسيط البلوكات أفقياً
@@ -35,6 +40,7 @@ const offsetX = (usableW - totalRowWidth) / 2;
 ```
 
 **المميزات:**
+
 - ترتيب منطقي وجميل
 - توسيط ذكي للبلوكات
 - مسافات متسقة
@@ -42,7 +48,9 @@ const offsetX = (usableW - totalRowWidth) / 2;
 ---
 
 ### 2. تحسين منطق `handleDragEnd`
+
 **التغييرات:**
+
 - استخدام نفس نظام الـ grid calculation
 - توسيط صحيح عند تفكك البلوكات
 - ضمان الامتثال للمسافات المتسقة
@@ -53,7 +61,9 @@ const offsetX = (usableW - totalRowWidth) / 2;
 ---
 
 ### 3. تحسين منطق `handleTrayPointerDown`
+
 **التغييرات:**
+
 - استخدام نظام الـ grid calculation نفسه عند سحب من tray
 - استدعاء `arrangeBlocksInZone` في النهاية لضمان الترتيب النهائي
 
@@ -65,6 +75,7 @@ const offsetX = (usableW - totalRowWidth) / 2;
 ## 🎨 التحسينات البصرية
 
 ### Unit (الآحاد) - Color: #eab308
+
 ```
 البعد: 28×28
 التأثير الجديد: نمط قطري بسيط يشير للوحدة الفردية
@@ -72,6 +83,7 @@ const offsetX = (usableW - totalRowWidth) / 2;
 ```
 
 ### Rod (العشرات) - Color: #3b82f6
+
 ```
 البعد: 28×140
 التأثيرات:
@@ -82,6 +94,7 @@ const offsetX = (usableW - totalRowWidth) / 2;
 ```
 
 ### Flat (المئات) - Color: #f97316
+
 ```
 البعد: 140×140
 التصميم: شبكة 10×10 واضحة (100 مربع)
@@ -93,6 +106,7 @@ const offsetX = (usableW - totalRowWidth) / 2;
 ```
 
 ### Cube (الآلاف) - Color: #22c55e
+
 ```
 البعد: 160×160
 التصميم: 3D Isometric with 10×10 front face
@@ -109,17 +123,21 @@ const offsetX = (usableW - totalRowWidth) / 2;
 ## ✨ المميزات الموجودة والعاملة
 
 ✅ **الإضافة التلقائية:**
+
 - الضغط على بلوك من tray يضيفه مباشرة للمنطقة المناسبة
 
 ✅ **السحب والإفلات:**
+
 - سحب من tray يضع البلوك بالمكان المقصود
 - سحب من القماش يحرك البلوكات بسلاسة
 
 ✅ **منع الأخطاء:**
+
 - لا يمكن وضع بلوك كبير في منطقة صغيرة
 - يتم تفكيك البلوكات الكبيرة تلقائياً
 
 ✅ **تحكم كامل بـ Mat:**
+
 - نقل (drag)
 - تكبير/تصغير (resize) مع 8 handles
 - نسخ (duplicate)
@@ -127,6 +145,7 @@ const offsetX = (usableW - totalRowWidth) / 2;
 - تشغيل/إيقاف عرض labels
 
 ✅ **تحكم كامل بالبلوكات:**
+
 - اختيار متعدد (Shift/Ctrl+Click)
 - نسخ (Ctrl+C أو زر)
 - قفل/فتح
@@ -135,6 +154,7 @@ const offsetX = (usableW - totalRowWidth) / 2;
 - إعادة تجميع (regroup) أو أكثر من 10 نسخة
 
 ✅ **التصغير والتكبير:**
+
 - تحكم كامل على الـ workspace
 - يشمل كل المكونات (Mat، Blocks، الجدول)
 
@@ -172,6 +192,7 @@ const offsetX = (usableW - totalRowWidth) / 2;
 ## 🎯 الخطوات التالية الممكنة
 
 إذا لزمت تحسينات إضافية:
+
 1. إضافة كاميرا قابلة للحركة 3D للـ Cube
 2. إضافة تأثيرات animation عند التفكك
 3. إضافة أصوات عند الإجراءات
