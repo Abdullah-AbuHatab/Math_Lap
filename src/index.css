@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Inter", sans-serif;
+  
+  --color-string-pink: #ed3b91;
+  --color-string-pink-hover: #d6257a;
+  --color-string-blue: #08b8fb;
+  --color-string-blue-light: rgba(8, 184, 251, 0.2);
+  --color-string-navy: #091e42;
+  --color-string-navy-muted: #6882a9;
+  --color-string-border: #e2e8f0;
+  --color-string-bg-alt: #f8fafc;
+  
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  
+  --shadow-string-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-string-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-string-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-string-glow: 0 0 20px rgba(237, 59, 145, 0.15);
+}
+
+@layer base {
+  body {
+    @apply bg-white text-string-navy overflow-hidden antialiased;
+  }
+}
+
+.workspace-grid {
+  background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+  background-size: 24px 24px;
+}
